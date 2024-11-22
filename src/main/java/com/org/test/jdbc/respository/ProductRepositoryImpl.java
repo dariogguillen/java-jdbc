@@ -72,6 +72,18 @@ public class ProductRepositoryImpl implements Repository<Product> {
       e.printStackTrace();
     }
   }
+
+  @Override
+  public void delete(Long id) {
+    try (PreparedStatement ps = connection().prepareStatement("DELETE FROM productos WHERE id = ?")) {
+      ps.setLong(1, id);
+      ps.executeUpdate();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+
+  }
+
   private Product getProduct(ResultSet rs) throws SQLException {
     Product p = new Product();
     p.setId(rs.getLong("id"));

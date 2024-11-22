@@ -19,6 +19,8 @@ public class App {
       System.out.println(repo.byId(1L));
       System.out.println("Save product");
       repo.save(new Product(22L, "Mouse", 1000, new java.util.Date()));
+      System.out.println("Delete product");
+      repo.delete(1L);
     } catch (SQLException e) {
       e.printStackTrace();
     }
