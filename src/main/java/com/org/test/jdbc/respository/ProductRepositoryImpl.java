@@ -1,6 +1,7 @@
 package com.org.test.jdbc.respository;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -47,6 +48,29 @@ public class ProductRepositoryImpl implements Repository<Product> {
       e.printStackTrace();
     }
     return p;
+  }
+
+  @Override
+  public void save(Product p) {
+    String sql;
+    if (p.getId() != null && p.getId() > 0) {
+      sql = "UPDATE productos SET nombre = ?, precio = ? WHERE id = ?";
+    } else {
+      sql = "INSERT INTO productos ( nombre, precio, fecha) VALUES (?, ?, ?)";
+    }
+    try (PreparedStatement ps = connection().prepareStatement(sql)) {
+      ps.setString(1, p.getNombre());
+      ps.setInt(2, p.getPrecio());
+      if (p.getId() != null && p.getId() > 0) {
+        ps.setLong(3, p.getId());
+      } else {
+        ps.setDate(3, new Date(p.getFecha().getTime()));
+      }
+
+      ps.executeUpdate();
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
   }
   private Product getProduct(ResultSet rs) throws SQLException {
     Product p = new Product();

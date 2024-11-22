@@ -17,6 +17,8 @@ public class App {
 
       System.out.println("Find by id");
       System.out.println(repo.byId(1L));
+      System.out.println("Save product");
+      repo.save(new Product(22L, "Mouse", 1000, new java.util.Date()));
     } catch (SQLException e) {
       e.printStackTrace();
     }
