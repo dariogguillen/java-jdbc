@@ -31,6 +31,23 @@ public class ProductRepositoryImpl implements Repository<Product> {
     }
     return products;
   }
+
+  @Override
+  public Product byId(Long id) {
+    Product p = null;
+    try (PreparedStatement ps = connection()
+        .prepareStatement("SELECT * FROM productos WHERE id = ?");) {
+      ps.setLong(1, id);
+      try (ResultSet rs = ps.executeQuery();) {
+        if (rs.next()) {
+          p = getProduct(rs);
+        }
+      }
+    } catch (SQLException e) {
+      e.printStackTrace();
+    }
+    return p;
+  }
   private Product getProduct(ResultSet rs) throws SQLException {
     Product p = new Product();
     p.setId(rs.getLong("id"));

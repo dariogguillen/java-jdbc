@@ -13,7 +13,10 @@ public class App {
 
     try (Connection conn = DBConnection.getConnection();) {
       Repository<Product> repo = new ProductRepositoryImpl();
-      repo.list().forEach(p -> System.out.println(p.getNombre()));
+      repo.list().forEach(System.out::println);
+
+      System.out.println("Find by id");
+      System.out.println(repo.byId(1L));
     } catch (SQLException e) {
       e.printStackTrace();
     }
