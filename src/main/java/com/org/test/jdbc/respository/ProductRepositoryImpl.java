@@ -23,16 +23,20 @@ public class ProductRepositoryImpl implements Repository<Product> {
     try (Statement st = connection().createStatement();
         ResultSet rs = st.executeQuery("SELECT * FROM productos")) {
       while (rs.next()) {
-        Product p = new Product();
-        p.setId(rs.getLong("id"));
-        p.setNombre(rs.getString("nombre"));
-        p.setPrecio(rs.getInt("precio"));
-        p.setFecha(rs.getDate("fecha"));
+        Product p = getProduct(rs);
         products.add(p);
       }
     } catch (SQLException e) {
       e.printStackTrace();
     }
     return products;
+  }
+  private Product getProduct(ResultSet rs) throws SQLException {
+    Product p = new Product();
+    p.setId(rs.getLong("id"));
+    p.setNombre(rs.getString("nombre"));
+    p.setPrecio(rs.getInt("precio"));
+    p.setFecha(rs.getDate("fecha"));
+    return p;
   }
 }
